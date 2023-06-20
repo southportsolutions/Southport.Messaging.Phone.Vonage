@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Authors>Robert Anstett</Authors>
+    <Company>Southport Solutions, LLC</Company>
+    <Description>Normalized Text Message class to use a fluent API.</Description>
+    <Copyright>2021</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ch53k/Southport.Messaging.Phone.Twilio</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ch53k/Southport.Messaging.Phone.Twilio</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageTags>Twilio Southport</PackageTags>
+    <PackageReleaseNotes>Updated packages</PackageReleaseNotes>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Twilio" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
