@@ -1,14 +1,14 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-using Southport.Messaging.Phone.Twilio.Shared;
+using Southport.Messaging.Phone.Vonage.Shared;
 
-namespace Southport.Messaging.Phone.Twilio.Tests
+namespace Southport.Messaging.Phone.Vonage.Tests
 {
     public static class Startup
     {
-        private static ITwilioOptions Options { get; set; }
-        public static ITwilioOptions GetOptions()
+        private static IVonageOptions Options { get; set; }
+        public static IVonageOptions GetOptions()
         {
             if (Options == null)
             {
@@ -17,18 +17,18 @@ namespace Southport.Messaging.Phone.Twilio.Tests
                     .AddJsonFile(Path.Combine((new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.Parent).ToString(), "appsettings.json"), true)
                     .AddEnvironmentVariables();
                 var config = configurationBuilder.Build();
-                Options = new TwilioOptions {UseSandbox = true};
+                Options = new VonageOptions { UseSandbox = true};
                 config.Bind(Options);
 
-                if (string.IsNullOrWhiteSpace(Options.AccountSid))
+                if (string.IsNullOrWhiteSpace(Options.Secret))
                 {
-                    Options.AccountSid = Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
-                    Options.AuthToken = Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
+                    Options.Secret = Environment.GetEnvironmentVariable("VONAGE_SECRET");
+                    Options.ApiKey = Environment.GetEnvironmentVariable("VOAGE_API_KEY");
                 }
 
-                if (string.IsNullOrEmpty(Options.AccountSid))
+                if (string.IsNullOrEmpty(Options.ApiKey))
                 {
-                    throw new Exception("Unable to get the Twilio API Key.");
+                    throw new Exception("Unable to get the Vonage API Key.");
                 }
             }
 
@@ -37,13 +37,11 @@ namespace Southport.Messaging.Phone.Twilio.Tests
         }
     }
 
-    public class TwilioOptions : ITwilioOptions
+    public class VonageOptions : IVonageOptions
     {
-        public string AccountSid { get; set; }
-        public string ApiKey { get; set; }
-        public string AuthToken { get; set; }
-        public bool UseSandbox { get; set; }
         public string TestPhoneNumbers { get; set; }
-        public string MessagingServiceSid { get; set; }
+        public bool UseSandbox { get; set; }
+        public string ApiKey { get; set; }
+        public string Secret { get; set; }
     }
 }

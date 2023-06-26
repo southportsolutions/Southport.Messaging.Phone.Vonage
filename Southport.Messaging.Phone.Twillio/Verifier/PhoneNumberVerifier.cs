@@ -1,55 +1,55 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Southport.Messaging.Phone.Vonage.Shared;
-using Twilio.Rest.Lookups.V1;
-using Twilio.Types;
-using HttpClient = System.Net.Http.HttpClient;
+using Vonage.Common;
+using Vonage.Verify;
 
-namespace Southport.Messaging.Phone.Vonage.Verifier
+namespace Southport.Messaging.Phone.Vonage.Verifier;
+
+public class PhoneNumberVerifier : VonageClientBase, IPhoneNumberVerifier
 {
-    public class PhoneNumberVerifier : TwilioClientBase, IPhoneNumberVerifier
+    public PhoneNumberVerifier(string accountSid, string apiKey, string secret, bool useSandbox) : base(apiKey, secret, useSandbox)
     {
-        public PhoneNumberVerifier(HttpClient httpClient, string accountSid, string apiKey, string authToken, bool useSandbox) : base(httpClient, accountSid, apiKey, authToken, useSandbox)
+    }
+
+    public PhoneNumberVerifier(IVonageOptions options) : base(options)
+    {
+    }
+
+
+    public async Task<VerifyResponse> PhoneNumberLookupAsync(string phoneNumber, PhoneNumberLookupType type, string countryCode)
+    {
+        VerifyResponse response = null;
+        switch (type)
         {
+            case PhoneNumberLookupType.Validate:
+                var request = new VerifyRequest
+                {
+                    Number = phoneNumber,
+                    Country = countryCode
+                };
+                response = await InnerClient.VerifyClient.VerifyRequestAsync(request);
+                break;
+            case PhoneNumberLookupType.Carrier:
+                break;
+            case PhoneNumberLookupType.CallerName:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
-
-        public PhoneNumberVerifier(HttpClient httpClient, ITwilioOptions options) : base(httpClient, options)
-        {
-        }
+        
 
 
-        public async Task<PhoneNumberResource> PhoneNumberLookupAsync(string phoneNumber, PhoneNumberLookupType type, string countryCode)
-        {
-            if (string.IsNullOrWhiteSpace(phoneNumber) || string.IsNullOrEmpty(phoneNumber))
-            {
-                return null;
-            }
-
-            phoneNumber = TwilioHelper.NormalizePhoneNumber(phoneNumber);
-            var types = new List<string>();
-            switch (type)
-            {
-                case PhoneNumberLookupType.Carrier:
-                    types.Add("carrier");
-                    break;
-                case PhoneNumberLookupType.CallerName:
-                    types.Add("caller-name");
-                    break;
-                default:
-                    types = null;
-                    break;
-
-            }
-
-            return await PhoneNumberResource.FetchAsync(type: types, countryCode: countryCode, pathPhoneNumber: new PhoneNumber(phoneNumber), client: _innerClient);
-        }
+        return response;
 
     }
 
-    public enum PhoneNumberLookupType
-    {
-        Validate,
-        Carrier,
-        CallerName
-    }
+}
+
+public enum PhoneNumberLookupType
+{
+    Validate,
+    Carrier,
+    CallerName
 }

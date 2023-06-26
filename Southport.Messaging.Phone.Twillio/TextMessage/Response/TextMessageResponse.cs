@@ -1,37 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using Twilio.Rest.Api.V2010.Account;
-using Twilio.Types;
+using System.Globalization;
+using System.Linq;
+using Vonage.Common;
+using Vonage.Messaging;
 
 namespace Southport.Messaging.Phone.Vonage.TextMessage.Response
 {
     public class TextMessageResponse : ITextMessageResponse
     {
 
-        public static explicit operator TextMessageResponse(MessageResource b) => new(b);
+        public static explicit operator TextMessageResponse(SendSmsResponse b) => new(b);
 
-        TextMessageResponse(MessageResource messageResource)
+        TextMessageResponse(SendSmsResponse messageResource)
         {
-            Body = messageResource.Body;
-            NumSegments = messageResource.NumSegments;
-            Direction = messageResource.Direction.ToString();
-            From = messageResource.From;
-            To = messageResource.To;
-            DateUpdated = messageResource.DateUpdated;
-            Price = messageResource.Price;
-            ErrorMessage = messageResource.ErrorMessage;
-            Uri = messageResource.Uri;
-            AccountSid = messageResource.AccountSid;
-            NumMedia = messageResource.NumMedia;
-            Status = messageResource.Status.ToString();
-            MessagingServiceSid = messageResource.MessagingServiceSid;
-            Sid = messageResource.Sid;
-            DateSent = messageResource.DateSent;
-            DateCreated = messageResource.DateCreated;
-            ErrorCode = messageResource.ErrorCode;
-            PriceUnit = messageResource.PriceUnit;
-            ApiVersion = messageResource.ApiVersion;
-            SubresourceUris = messageResource.SubresourceUris;
+            double messageCost = 0;
+            foreach (var message in messageResource.Messages)
+            {
+                double.TryParse(message.MessagePrice, out var cost);
+                messageCost += cost;
+            }
+
+            Body = null;
+            NumSegments = messageResource.MessageCount;
+            Direction = null;
+            From = null;
+            To = messageResource.Messages.Select(e=>e.To).FirstOrDefault();
+            DateUpdated = null;
+            Price = messageCost.ToString();
+            ErrorMessage = string.Join("\n", messageResource.Messages.Select(e=>e.ErrorText));
+            Uri = null;
+            AccountSid = null;
+            NumMedia = null;
+            Status = string.Join("\n", messageResource.Messages.Select(e=>e.Status));
+            MessagingServiceSid = null;
+            Sid = null;
+            DateSent = null;
+            DateCreated = null;
+            ErrorCode = null;
+            PriceUnit = null;
+            ApiVersion = null;
+            SubresourceUris = null;
             IsSuccessful = string.IsNullOrWhiteSpace(ErrorMessage);
         }
 
@@ -51,7 +60,7 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage.Response
         public string Body { get; }
         public string NumSegments { get; }
         public DirectionEnum Direction { get; }
-        public PhoneNumber From { get; }
+        public string From { get; }
         public string To { get; }
         public DateTime? DateUpdated { get; }
         public string Price { get; }

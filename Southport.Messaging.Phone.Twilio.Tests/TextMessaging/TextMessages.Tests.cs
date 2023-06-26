@@ -28,8 +28,8 @@ namespace Southport.Messaging.Phone.Vonage.Tests.TextMessaging
         [Fact]
         public async Task Send_BadFromNumber()
         {
-            var toNumber = "+15555551212";
-            var fromNumber = "+15005550001";
+            var toNumber = "+16154610621";
+            var fromNumber = "++1736271837";
             var message = "Testing";
 
             var response = await TextMessage
@@ -38,7 +38,7 @@ namespace Southport.Messaging.Phone.Vonage.Tests.TextMessaging
                 .SetMessage(message)
                 .SendAsync();
 
-            var expectedErrorCode = 21212;
+            var expectedErrorCode = 15;
 
             Assert.False(response.IsSuccessful);
             Assert.Equal(expectedErrorCode, response.ErrorCode);
@@ -49,8 +49,8 @@ namespace Southport.Messaging.Phone.Vonage.Tests.TextMessaging
         [Fact]
         public async Task Send_Success()
         {
-            var toNumber = "+15155551212";
-            var fromNumber = "+15005550006";
+            var toNumber = "+16154610621";
+            var fromNumber = "+13023515152";
             var message = "Testing";
 
             var response = await TextMessage

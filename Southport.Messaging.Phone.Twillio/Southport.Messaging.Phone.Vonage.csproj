@@ -18,14 +18,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Twilio" Version="6.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\icon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Vonage" Version="6.4.0" />
   </ItemGroup>
 
 </Project>

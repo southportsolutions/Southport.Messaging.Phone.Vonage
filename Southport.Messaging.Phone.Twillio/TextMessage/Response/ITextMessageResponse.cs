@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Twilio.Types;
+using Vonage.Common;
 
 namespace Southport.Messaging.Phone.Vonage.TextMessage.Response
 {
@@ -16,7 +16,7 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage.Response
         DirectionEnum Direction { get; }
 
         /// <summary>The phone number that initiated the message</summary>
-        PhoneNumber From { get; }
+        string From { get; }
 
         /// <summary>The phone number that received the message</summary>
         string To { get; }
