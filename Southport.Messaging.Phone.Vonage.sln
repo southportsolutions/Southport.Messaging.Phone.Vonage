@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33502.453
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Southport.Messaging.Phone.Vonage", "Southport.Messaging.Phone.Vonage\Southport.Messaging.Phone.Vonage.csproj", "{E9389114-B7F6-45BD-8FB4-DFF5E51CF9A9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E9389114-B7F6-45BD-8FB4-DFF5E51CF9A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9389114-B7F6-45BD-8FB4-DFF5E51CF9A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9389114-B7F6-45BD-8FB4-DFF5E51CF9A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9389114-B7F6-45BD-8FB4-DFF5E51CF9A9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D8F9821-D660-4F28-A77B-0081ECBCB870}
+	EndGlobalSection
+EndGlobal

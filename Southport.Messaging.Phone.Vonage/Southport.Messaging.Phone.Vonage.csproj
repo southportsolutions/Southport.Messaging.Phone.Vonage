@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Authors>Robert Anstett</Authors>
+    <Company>Southport Solutions, LLC</Company>
+    <Description>Normalized Text Message class to use a fluent API.</Description>
+    <Copyright>2023</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/southportsolutions/Southport.Messaging.Phone.Vonage</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/southportsolutions/Southport.Messaging.Phone.Vonage</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageTags>Vonage Southport</PackageTags>
+    <PackageReleaseNotes>Updated packages</PackageReleaseNotes>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Southport.Messaging.Phone.Core" Version="1.0.0-alpha1" />
+    <PackageReference Include="Vonage" Version="6.4.0" />
+  </ItemGroup>
+
+
+</Project>
