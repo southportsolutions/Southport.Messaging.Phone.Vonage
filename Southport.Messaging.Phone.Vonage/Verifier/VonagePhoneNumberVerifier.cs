@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Southport.Messaging.Phone.Core.Verifier;
 using Southport.Messaging.Phone.Vonage.Shared;
-using Vonage.Common;
 using Vonage.Verify;
 
 namespace Southport.Messaging.Phone.Vonage.Verifier;
 
-public class PhoneNumberVerifier : VonageClientBase, IPhoneNumberVerifier
+public class VonageVonagePhoneNumberVerifier : VonageClientBase, IVonagePhoneNumberVerifier
 {
-    public PhoneNumberVerifier(string accountSid, string apiKey, string secret, bool useSandbox) : base(apiKey, secret, useSandbox)
+    public VonageVonagePhoneNumberVerifier(string accountSid, string apiKey, string secret, bool useSandbox) : base(apiKey, secret, useSandbox)
     {
     }
 
-    public PhoneNumberVerifier(IVonageOptions options) : base(options)
+    public VonageVonagePhoneNumberVerifier(IVonageOptions options) : base(options)
     {
     }
 
@@ -39,17 +38,8 @@ public class PhoneNumberVerifier : VonageClientBase, IPhoneNumberVerifier
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
         
-
-
         return response;
 
     }
 
-}
-
-public enum PhoneNumberLookupType
-{
-    Validate,
-    Carrier,
-    CallerName
 }

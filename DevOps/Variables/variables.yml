@@ -8,7 +8,7 @@ variables:
     
   vmImage: 'ubuntu-latest'
   buildConfiguration: 'Release'
-  projectName: 'Southport.Messaging.Phone.Twilio'
+  projectName: 'Southport.Messaging.Phone.Vonage'
   sonarCloudOrganization: 'southport'
   sonarCloudProjectKey: 'southport_Southport.Phone.Twilio'
   sonarCloudProjectName: 'Southport.Phone.Twilio'

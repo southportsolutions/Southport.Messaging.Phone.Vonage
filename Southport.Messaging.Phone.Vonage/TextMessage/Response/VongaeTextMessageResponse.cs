@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using Vonage.Common;
+using Southport.Messaging.Phone.Core.Response;
 using Vonage.Messaging;
 
 namespace Southport.Messaging.Phone.Vonage.TextMessage.Response
 {
-    public class TextMessageResponse : ITextMessageResponse
+    public class VonageTextMessageResponse : ITextMessageResponse
     {
 
-        public static explicit operator TextMessageResponse(SendSmsResponse b) => new(b);
+        public static explicit operator VonageTextMessageResponse(SendSmsResponse b) => new(b);
 
-        TextMessageResponse(SendSmsResponse messageResource)
+        VonageTextMessageResponse(SendSmsResponse messageResource)
         {
             double messageCost = 0;
             foreach (var message in messageResource.Messages)
@@ -44,7 +43,7 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage.Response
             IsSuccessful = string.IsNullOrWhiteSpace(ErrorMessage);
         }
 
-        private TextMessageResponse(string message, string moreInfo, int errorCode)
+        private VonageTextMessageResponse(string message, string moreInfo, int errorCode)
         {
             ErrorCode = errorCode;
             ErrorMessage = message;
@@ -54,7 +53,7 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage.Response
 
         public static ITextMessageResponse Failed(string message, string moreInfo, int errorCode)
         {
-            return new TextMessageResponse(message, moreInfo, errorCode);
+            return new VonageTextMessageResponse(message, moreInfo, errorCode);
         }
 
         public string Body { get; }

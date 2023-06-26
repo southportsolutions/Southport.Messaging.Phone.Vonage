@@ -3,16 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Southport.Messaging.Phone.Vonage", "Southport.Messaging.Phone.Twillio\Southport.Messaging.Phone.Vonage.csproj", "{2CAF84C7-C634-4721-BD65-D627075B4C5E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3C68F41-DBAD-4E48-A650-633EBA3D4756}"
-	ProjectSection(SolutionItems) = preProject
-		DevOps\build.yml = DevOps\build.yml
-		DevOps\deploy.yml = DevOps\deploy.yml
-		DevOps\DevOps.yml = DevOps\DevOps.yml
-	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Southport.Messaging.Phone.Vonage.Tests", "Southport.Messaging.Phone.Twilio.Tests\Southport.Messaging.Phone.Vonage.Tests.csproj", "{08480961-5EA2-411C-86D4-82DD96F74157}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Southport.Messaging.Phone.Vonage", "Southport.Messaging.Phone.Vonage\Southport.Messaging.Phone.Vonage.csproj", "{E9389114-B7F6-45BD-8FB4-DFF5E51CF9A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,19 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2CAF84C7-C634-4721-BD65-D627075B4C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2CAF84C7-C634-4721-BD65-D627075B4C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2CAF84C7-C634-4721-BD65-D627075B4C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2CAF84C7-C634-4721-BD65-D627075B4C5E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08480961-5EA2-411C-86D4-82DD96F74157}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08480961-5EA2-411C-86D4-82DD96F74157}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08480961-5EA2-411C-86D4-82DD96F74157}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08480961-5EA2-411C-86D4-82DD96F74157}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9389114-B7F6-45BD-8FB4-DFF5E51CF9A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9389114-B7F6-45BD-8FB4-DFF5E51CF9A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9389114-B7F6-45BD-8FB4-DFF5E51CF9A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9389114-B7F6-45BD-8FB4-DFF5E51CF9A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FC747179-CEA5-4E3F-8DD3-6F66D31C2CC8}
+		SolutionGuid = {1D8F9821-D660-4F28-A77B-0081ECBCB870}
 	EndGlobalSection
 EndGlobal
