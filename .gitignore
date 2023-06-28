@@ -150,3 +150,4 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,dotnetcore,rider
 /.vs
+/Southport.Messaging.Phone.Vonage.Tests/appsettings.json

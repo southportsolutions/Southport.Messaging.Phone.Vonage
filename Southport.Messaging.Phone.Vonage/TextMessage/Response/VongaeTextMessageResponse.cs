@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Southport.Messaging.Phone.Core.Response;
-using Vonage.Messaging;
+using Southport.Messaging.Phone.Core.Shared;
+using Southport.Messaging.Phone.Vonage.Shared;
 
 namespace Southport.Messaging.Phone.Vonage.TextMessage.Response
 {
@@ -19,12 +20,11 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage.Response
                 double.TryParse(message.MessagePrice, out var cost);
                 messageCost += cost;
             }
-
             Body = null;
             NumSegments = messageResource.MessageCount;
-            Direction = null;
-            From = null;
-            To = messageResource.Messages.Select(e=>e.To).FirstOrDefault();
+            Direction = messageResource.Direction;
+            From = messageResource.From;
+            To = PhoneHelper.NormalizePhoneNumber(messageResource.Messages.Select(e => e.To).FirstOrDefault());
             DateUpdated = null;
             Price = messageCost.ToString();
             ErrorMessage = string.Join("\n", messageResource.Messages.Select(e=>e.ErrorText));
@@ -33,7 +33,7 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage.Response
             NumMedia = null;
             Status = string.Join("\n", messageResource.Messages.Select(e=>e.Status));
             MessagingServiceSid = null;
-            Sid = null;
+            Sid = messageResource.Messages.Select(e=>e.MessageId).FirstOrDefault();
             DateSent = null;
             DateCreated = null;
             ErrorCode = null;
