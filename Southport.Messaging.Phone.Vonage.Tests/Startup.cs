@@ -7,8 +7,8 @@ namespace Southport.Messaging.Phone.Vonage.Tests
 {
     public static class Startup
     {
-        private static IVonageOptions Options { get; set; }
-        public static IVonageOptions GetOptions()
+        private static VonageOptions Options { get; set; }
+        public static VonageOptions GetOptions()
         {
             if (Options == null)
             {
@@ -24,6 +24,8 @@ namespace Southport.Messaging.Phone.Vonage.Tests
                 {
                     Options.Secret = Environment.GetEnvironmentVariable("VONAGE_SECRET");
                     Options.ApiKey = Environment.GetEnvironmentVariable("VOAGE_API_KEY");
+                    Options.From = Environment.GetEnvironmentVariable("VONAGE_FROM");
+                    Options.To = Environment.GetEnvironmentVariable("VONAGE_TO");
                 }
 
                 if (string.IsNullOrEmpty(Options.ApiKey))
@@ -43,5 +45,7 @@ namespace Southport.Messaging.Phone.Vonage.Tests
         public bool UseSandbox { get; set; }
         public string ApiKey { get; set; }
         public string Secret { get; set; }
+        public string To { get; set; }
+        public string From { get; set; }
     }
 }

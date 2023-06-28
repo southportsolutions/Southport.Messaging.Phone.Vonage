@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.AutoMoq;
 using Southport.Messaging.Phone.Core.TextMessage;
+using Southport.Messaging.Phone.Vonage.Shared;
 using Southport.Messaging.Phone.Vonage.TextMessage;
 using Xunit;
 using Xunit.Abstractions;
@@ -13,13 +14,14 @@ namespace Southport.Messaging.Phone.Vonage.Tests.TextMessaging
     {
         private readonly ITestOutputHelper _output;
         private ITextMessage TextMessage { get; }
+        private VonageOptions Options { get; }
         public TextMessageTests(ITestOutputHelper output)
         {
             _output = output;
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
-            var options = Startup.GetOptions();
+            Options = Startup.GetOptions();
 
-            fixture.Register(()=>options);
+            fixture.Register(()=>(IVonageOptions)Options);
             fixture.Register(()=> new HttpClient());
 
             TextMessage = fixture.Create<VonageTextMessage>();
@@ -29,8 +31,8 @@ namespace Southport.Messaging.Phone.Vonage.Tests.TextMessaging
         [Fact]
         public async Task Send_BadFromNumber()
         {
-            var toNumber = "+16154610621";
-            var fromNumber = "++1736271837";
+            var toNumber = Options.To;
+            var fromNumber = "++17362271837";
             var message = "Testing";
 
             var response = await TextMessage
@@ -50,8 +52,8 @@ namespace Southport.Messaging.Phone.Vonage.Tests.TextMessaging
         [Fact]
         public async Task Send_Success()
         {
-            var toNumber = "+16154610621";
-            var fromNumber = "+13023515152";
+            var toNumber = Options.To;
+            var fromNumber = Options.From;
             var message = "Testing";
 
             var response = await TextMessage

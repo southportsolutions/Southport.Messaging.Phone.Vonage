@@ -1,18 +1,18 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Southport.Messaging.Phone.Core.Verifier;
 using Southport.Messaging.Phone.Vonage.Shared;
-using Vonage.Verify;
 
 namespace Southport.Messaging.Phone.Vonage.Verifier;
 
 public class VonageVonagePhoneNumberVerifier : VonageClientBase, IVonagePhoneNumberVerifier
 {
-    public VonageVonagePhoneNumberVerifier(string accountSid, string apiKey, string secret, bool useSandbox) : base(apiKey, secret, useSandbox)
+    public VonageVonagePhoneNumberVerifier(string apiKey, HttpClient httpClient, string secret, bool useSandbox) : base(httpClient, apiKey, secret, useSandbox)
     {
     }
 
-    public VonageVonagePhoneNumberVerifier(IVonageOptions options) : base(options)
+    public VonageVonagePhoneNumberVerifier(IVonageOptions options, HttpClient httpClient) : base(httpClient, options)
     {
     }
 
@@ -28,7 +28,8 @@ public class VonageVonagePhoneNumberVerifier : VonageClientBase, IVonagePhoneNum
                     Number = phoneNumber,
                     Country = countryCode
                 };
-                response = await InnerClient.VerifyClient.VerifyRequestAsync(request);
+                // TODO
+                //response = await InnerClient.VerifyClient.VerifyRequestAsync(request); //TODO
                 break;
             case PhoneNumberLookupType.Carrier:
                 break;

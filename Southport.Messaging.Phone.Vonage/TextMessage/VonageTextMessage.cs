@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Southport.Messaging.Phone.Core.Response;
 using Southport.Messaging.Phone.Core.Shared;
 using Southport.Messaging.Phone.Core.TextMessage;
 using Southport.Messaging.Phone.Vonage.Shared;
 using Southport.Messaging.Phone.Vonage.TextMessage.Response;
-using Vonage.Messaging;
 
 
 namespace Southport.Messaging.Phone.Vonage.TextMessage
@@ -15,11 +16,12 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage
     public class VonageTextMessage : VonageClientBase, ITextMessage
     {
 
-        public VonageTextMessage(IVonageOptions options) : base(options)
+        public VonageTextMessage(HttpClient httpClient, IVonageOptions options) : base(httpClient, options)
         {
         }
 
-        public VonageTextMessage(string apiKey, string secret, bool useSandbox = false, string testPhoneNumbers = null) : base(apiKey, secret, useSandbox, testPhoneNumbers)
+        public VonageTextMessage(HttpClient httpClient, string apiKey, string secret, bool useSandbox = false,
+            string testPhoneNumbers = null) : base(httpClient, apiKey, secret, useSandbox, testPhoneNumbers)
         {
         }
 
@@ -44,6 +46,7 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage
 
         public ITextMessage SetTo(string to)
         {
+            to = Regex.Replace(to, @"[^a-zA-Z0-9]", "");
             To = PhoneHelper.NormalizePhoneNumber(to);
             return this;
         }
@@ -86,23 +89,11 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage
 
             try
             {
-                //var messageResponse = await MessageResource.CreateAsync(
-                //    new PhoneNumber(To),
-                //    from: new PhoneNumber(from),
-                //    body: Message,
-                //    messagingServiceSid: MessageServiceSid,
-                //    client: InnerClient); // pass in the custom client
+                var response = await SendSms(From, To, Message);
 
-                var response = await InnerClient.SmsClient.SendAnSmsAsync(new SendSmsRequest()
-                {
-                    To = To,
-                    From = From,
-                    Text = Message
-                });
-
-                return (VonageTextMessageResponse) response;
+                return ProcessResponse(response) ;
             }
-            catch (VonageSmsResponseException e) // todo correct exception
+            catch (VonageSmsResponseException e)
             {
                 int.TryParse(e.Response.Messages.FirstOrDefault()?.Status, out var statusCode);
                 return VonageTextMessageResponse.Failed(e.Message, e.Response.Messages.FirstOrDefault()?.StatusCode.ToString(), statusCode);
@@ -112,19 +103,23 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage
 
         private async Task<ITextMessageResponse> SendTestPhoneNumbersAsync(string from)
         {
-            VonageTextMessageResponse messageResponse = null;
+            SendSmsResponse messageResponse = null;
             foreach (var to in TestPhoneNumbers.Select(PhoneHelper.NormalizePhoneNumber))
             {
-                messageResponse = (VonageTextMessageResponse)await InnerClient.SmsClient.SendAnSmsAsync(new SendSmsRequest
-                {
-                    To = To,
-                    From = From,
-                    Text = Message
-                });
+                messageResponse = await SendSms(From, to, Message);
             }
 
 
-            return messageResponse;
+            return ProcessResponse(messageResponse);
         }
+
+        private ITextMessageResponse ProcessResponse(SendSmsResponse response)
+        {
+            response.From = From;
+            response.Direction = DirectionEnum.OutboundApi;
+            return (VonageTextMessageResponse)response;
+
+        }
+
     }
 }
