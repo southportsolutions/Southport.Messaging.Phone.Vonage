@@ -45,7 +45,12 @@ namespace Southport.Messaging.Phone.Vonage.Tests
         public bool UseSandbox { get; set; }
         public string ApiKey { get; set; }
         public string Secret { get; set; }
+        public string PrivateKey { get; set; }
+        public string ApplicationId { get; set; }
+        public string ValidFor { get; set; }
         public string To { get; set; }
         public string From { get; set; }
+
+        public bool UseMessageApi { get; set; }
     }
 }

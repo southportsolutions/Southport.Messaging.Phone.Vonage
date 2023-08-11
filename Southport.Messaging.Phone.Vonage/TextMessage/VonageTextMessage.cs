@@ -15,14 +15,21 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage
 {
     public class VonageTextMessage : VonageClientBase, ITextMessage
     {
+        private readonly bool _useMessageApi = false;
 
         public VonageTextMessage(HttpClient httpClient, IVonageOptions options) : base(httpClient, options)
         {
+            if (options.UseMessageApi)
+            {
+                _useMessageApi = true;
+            }
         }
 
-        public VonageTextMessage(HttpClient httpClient, string apiKey, string secret, bool useSandbox = false,
-            string testPhoneNumbers = null) : base(httpClient, apiKey, secret, useSandbox, testPhoneNumbers)
+        public VonageTextMessage(HttpClient httpClient, string apiKey, string secret,
+            string privateKey, string applicationId, int validFor, bool useMessageApi = false, bool useSandbox = false,
+            string testPhoneNumbers = null) : base(httpClient, apiKey, secret, useSandbox, privateKey, applicationId, validFor, testPhoneNumbers)
         {
+            useMessageApi = useMessageApi;
         }
 
         private List<string> _testFromNumbers = new List<string>()
@@ -89,7 +96,12 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage
 
             try
             {
-                var response = await SendSms(From, To, Message);
+                SendSmsResponse response = null;
+                if (_useMessageApi)
+                {
+                    response =  await SendMessage(From, To, Message);
+                }
+                response = await SendSms(From, To, Message);
 
                 return ProcessResponse(response) ;
             }
