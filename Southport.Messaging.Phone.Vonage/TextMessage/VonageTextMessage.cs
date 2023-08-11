@@ -32,7 +32,7 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage
             useMessageApi = useMessageApi;
         }
 
-        private List<string> _testFromNumbers = new List<string>()
+        private List<string> _testFromNumbers = new()
         {
             "+15005550001",
             "+15005550007",

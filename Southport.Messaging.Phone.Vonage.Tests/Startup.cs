@@ -47,7 +47,7 @@ namespace Southport.Messaging.Phone.Vonage.Tests
         public string Secret { get; set; }
         public string PrivateKey { get; set; }
         public string ApplicationId { get; set; }
-        public string ValidFor { get; set; }
+        public int ValidFor { get; set; }
         public string To { get; set; }
         public string From { get; set; }
 

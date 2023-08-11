@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Southport.Messaging.Phone.Core.Response;
 using Southport.Messaging.Phone.Core.Shared;
+using Southport.Messaging.Phone.Vonage.Shared.Jwt;
 
 namespace Southport.Messaging.Phone.Vonage.Shared;
 
