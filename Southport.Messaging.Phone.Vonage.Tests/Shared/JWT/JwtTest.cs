@@ -1,13 +1,13 @@
 ﻿using System;
-using Xunit;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Southport.Messaging.Phone.Vonage.Shared.Jwt;
+using Xunit;
 
-namespace Vonage.JwtGeneration.Test;
+namespace Southport.Messaging.Phone.Vonage.Tests.Shared.JWT;
 
 public class JwtTest
 {
