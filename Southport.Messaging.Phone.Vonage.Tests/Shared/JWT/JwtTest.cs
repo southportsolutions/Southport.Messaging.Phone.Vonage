@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Southport.Messaging.Phone.Vonage.Shared.Jwt;
 
 namespace Vonage.JwtGeneration.Test;
@@ -123,8 +124,17 @@ KiElKOVAmMLlRxie4xWNR10=
     [Fact]
     public void TestBadKey()
     {
-
         var exception = Assert.Throws<ArgumentException>(() => JwtGenerator.Generate("badKey", _mockAppId));
         Assert.Equal("Invalid Private Key provided", exception.Message);
+    }
+
+    [Fact]
+    public void TestCache()
+    {
+        var appId = _mockAppId;
+        var jwt = JwtGenerator.Generate(_mockPKCS8, appId, expiresInSeconds: 2);
+        Task.Delay(2500).Wait();
+        var jwt2 = JwtGenerator.Generate(_mockPKCS8, appId, expiresInSeconds: 2);
+        Assert.NotEqual(jwt, jwt2);
     }
 }
