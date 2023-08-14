@@ -20,7 +20,8 @@ public abstract class VonageClientBase
     private readonly HttpClient _httpClient;
     private readonly string _apiKey;
     private readonly string _apiSecret;
-    private readonly string _apiUrl = "https://rest.nexmo.com/sms/json";
+    private readonly string _smsApiUrl = "https://rest.nexmo.com/sms/json";
+    private readonly string _messagesApiUrl = "https://api.nexmo.com/v1/messages/";
 
     private readonly string _privateKey;
     private readonly string _applicationId;
@@ -59,7 +60,7 @@ public abstract class VonageClientBase
 
         var content = new FormUrlEncodedContent(collection);
 
-        var response = await _httpClient.PostAsync(_apiUrl, content);
+        var response = await _httpClient.PostAsync(_smsApiUrl, content);
         var responseString = await response.Content.ReadAsStringAsync();
         var smsResponse = JsonConvert.DeserializeObject<SendSmsResponse>(responseString);
 
@@ -86,14 +87,15 @@ public abstract class VonageClientBase
             channel = "sms"
         };
 
+
         var content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
 
-        var jwtToken = JwtGenerator.Generate(_privateKey, _applicationId, _validFor);
+        var jwtToken = JwtGenerator.Generate(_privateKey, _applicationId);
 
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
 
 
-        var response = await _httpClient.PostAsync(_apiUrl, content);
+        var response = await _httpClient.PostAsync(_messagesApiUrl, content);
         var responseString = await response.Content.ReadAsStringAsync();
         var smsResponse = JsonConvert.DeserializeObject<SendMessageResponse>(responseString);
 

@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
-using Jose;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.OpenSsl;
-using Org.BouncyCastle.Security;
-
 namespace Southport.Messaging.Phone.Vonage.Shared.Jwt;
 
 public record VonageToken(double ExpiresAt, string Token)
@@ -22,10 +18,11 @@ public static class JwtGenerator
     private static readonly DateTime EpochTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     private static readonly Dictionary<string, VonageToken> Tokens = new();
 
-    public static string Generate(string privateKey, string applicationId, int expiresInSeconds = 1800, List<AclPath> accessControls = null)
+    public static string Generate(string privateKey, string applicationId, int expiresInSeconds = 1800,
+        List<AclPath> accessControls = null)
     {
         var currentTime = DateTime.UtcNow - EpochTime;
-        var currentTimeSeconds = currentTime.TotalSeconds;
+        var currentTimeSeconds = (long)currentTime.TotalSeconds;
 
         if (Tokens.ContainsKey(applicationId))
         {
@@ -35,69 +32,85 @@ public static class JwtGenerator
             }
         }
 
-        var acls = new Acls { Paths = accessControls ?? new List<AclPath> { Acls.Sessions, Acls.Conversations, Acls.Image } };
+        var acls = new Acls
+            { Paths = accessControls ?? new List<AclPath> { Acls.Sessions, Acls.Conversations, Acls.Image } };
         var exp = currentTime.Add(TimeSpan.FromSeconds(expiresInSeconds));
-        var expTotalSeconds = exp.TotalSeconds;
-        var claims = new
+        var expTotalSeconds = (long)exp.TotalSeconds;
+
+        var claims = new List<Claim>
         {
-            application_id = applicationId,
-            iat = currentTimeSeconds,
-            exp = expTotalSeconds,
-            jti = Guid.NewGuid(),
-            acls
+            new Claim("application_id", applicationId),
+            new Claim("iat", currentTimeSeconds.ToString()),
+            new Claim("exp", expTotalSeconds.ToString()),
+            new Claim("jti", Guid.NewGuid().ToString()),
+            new Claim("acls", JsonConvert.SerializeObject(acls))
         };
-        var settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-        var json = JsonConvert.SerializeObject(claims, settings);
 
-        using var rsa = SetupRsaParameters(privateKey);
-        var jwt = JWT.Encode(json, rsa, algorithm: JwsAlgorithm.RS256);
-        Tokens[applicationId] = new VonageToken(expTotalSeconds, jwt);
-        return jwt;
+        var rsa = SetupRsaParameters(privateKey);
 
+        var credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
+        var jwt = new JwtSecurityToken(
+            claims: claims,
+            signingCredentials: credentials
+        );
 
-        //accessControls ??= new List<AclPath> { Acls.Sessions, Acls.Conversations, Acls.Image };
-        //var tokenHandler = new JwtSecurityTokenHandler();
-        //var key = Encoding.ASCII.GetBytes(privateKey);
-        //var aclValue = JsonConvert.SerializeObject(new Acls() { Paths = accessControls });
-        //var tokenDescriptor = new SecurityTokenDescriptor
-        //{
-        //    Expires = DateTime.UtcNow.AddSeconds(expiresInSeconds),
-        //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-        //    Claims = new Dictionary<string, object>
-        //    {
-        //        { "application_id", applicationId },
-        //        { "acl", new Acls() { Paths = accessControls } }
-        //    }
-        //};
-        //var token = tokenHandler.CreateToken(tokenDescriptor);
-        //var tokenString = tokenHandler.WriteToken(token);
-        //return tokenString;
+        var jwtHandler = new JwtSecurityTokenHandler();
+        var jwtToken = jwtHandler.WriteToken(jwt);
+
+        Tokens[applicationId] = new VonageToken(expTotalSeconds, jwtToken);
+        return jwtToken;
+
     }
 
     public static string Decode(string jwt, string privateKey)
     {
         using var rsa = SetupRsaParameters(privateKey);
-        return JWT.Decode(jwt, rsa, alg: JwsAlgorithm.RS256);
+
+        var jwtHandler = new JwtSecurityTokenHandler();
+        var rsaSecurityKey = new RsaSecurityKey(rsa);
+
+        var validationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = rsaSecurityKey,
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+
+
+        jwtHandler.ValidateToken(jwt, validationParameters, out var validatedToken);
+
+        if (validatedToken is JwtSecurityToken jwtSecurityToken)
+        {
+            // You can access claims and other information from jwtSecurityToken.Claims
+            return jwtSecurityToken.ToString();
+        }
+
+
+        return null;
     }
 
-    /// <summary>
-    /// extra step at the end of construction to full initalize the RSA parameters.
-    /// </summary>
+
+
+
+
     private static RSACryptoServiceProvider SetupRsaParameters(string privateKey)
     {
-        using var sr = new StringReader(privateKey);
-        var pemReader = new PemReader(sr);
-        var kp = pemReader.ReadObject();
-        var privateRsaParams = kp switch
-        {
-            null => throw new ArgumentException($"Invalid Private Key provided"),
-            AsymmetricCipherKeyPair pair => pair.Private as RsaPrivateCrtKeyParameters,
-            _ => kp as RsaPrivateCrtKeyParameters
-        };
-        var parameters = DotNetUtilities.ToRSAParameters(privateRsaParams);
+        // Remove the header and footer from the private key string
+        var privateKeyFormatted = privateKey
+            .Replace("-----BEGIN PRIVATE KEY-----", "")
+            .Replace("-----END PRIVATE KEY-----", "")
+            .Replace("\n", "")
+            .Replace("\r", "");
+
+
+        // Convert base64 encoded private key to bytes
+        var privateKeyBytes = Convert.FromBase64String(privateKeyFormatted);
+
+        // Import the private key bytes
         var rsa = new RSACryptoServiceProvider();
-        rsa.ImportParameters(parameters);
+
+        rsa.ImportPkcs8PrivateKey(privateKeyBytes, out _);
         return rsa;
     }
 }
-

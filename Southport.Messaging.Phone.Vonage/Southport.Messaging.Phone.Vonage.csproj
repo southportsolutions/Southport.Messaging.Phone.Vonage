@@ -25,9 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="jose-jwt" Version="4.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
     <PackageReference Include="Southport.Messaging.Phone.Core" Version="1.0.0-alpha1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.1" />
     <!--<PackageReference Include="Vonage" Version="6.0.3" />-->
