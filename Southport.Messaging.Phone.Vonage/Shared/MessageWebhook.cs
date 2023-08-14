@@ -24,7 +24,7 @@ public class MessageStatusWebhook
     public MessageStatusWebhookError Error { get; set; }
 
     [JsonProperty("usage")]
-    public VonageUsage MessageStatusUsage { get; set; }
+    public VonageUsage Usage { get; set; }
 
     [JsonProperty("client_ref")]
     public string ClientRef { get; set; }
