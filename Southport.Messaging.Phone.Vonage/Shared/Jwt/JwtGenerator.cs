@@ -96,7 +96,6 @@ public static class JwtGenerator
 
     private static RSACryptoServiceProvider SetupRsaParameters(string privateKey)
     {
-        // Remove the header and footer from the private key string
         var privateKeyFormatted = privateKey
             .Replace("-----BEGIN PRIVATE KEY-----", "")
             .Replace("-----END PRIVATE KEY-----", "")
@@ -104,10 +103,8 @@ public static class JwtGenerator
             .Replace("\r", "");
 
 
-        // Convert base64 encoded private key to bytes
         var privateKeyBytes = Convert.FromBase64String(privateKeyFormatted);
 
-        // Import the private key bytes
         var rsa = new RSACryptoServiceProvider();
 
         rsa.ImportPkcs8PrivateKey(privateKeyBytes, out _);
