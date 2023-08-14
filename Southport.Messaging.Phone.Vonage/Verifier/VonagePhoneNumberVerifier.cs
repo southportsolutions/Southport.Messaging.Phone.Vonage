@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Southport.Messaging.Phone.Core.Verifier;
@@ -8,7 +9,7 @@ namespace Southport.Messaging.Phone.Vonage.Verifier;
 
 public class VonageVonagePhoneNumberVerifier : VonageClientBase, IVonagePhoneNumberVerifier
 {
-    public VonageVonagePhoneNumberVerifier(string apiKey, HttpClient httpClient, string secret, bool useSandbox) : base(httpClient, apiKey, secret, useSandbox)
+    public VonageVonagePhoneNumberVerifier(string apiKey, HttpClient httpClient, string secret, bool useSandbox, string privateKey, string applicationId, int validFor, string testPhoneNumbers) : base(httpClient, apiKey, secret, useSandbox, privateKey, applicationId, validFor, testPhoneNumbers)
     {
     }
 
