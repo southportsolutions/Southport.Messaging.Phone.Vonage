@@ -82,7 +82,6 @@ public static class JwtGenerator
 
         if (validatedToken is JwtSecurityToken jwtSecurityToken)
         {
-            // You can access claims and other information from jwtSecurityToken.Claims
             return jwtSecurityToken.ToString();
         }
 
