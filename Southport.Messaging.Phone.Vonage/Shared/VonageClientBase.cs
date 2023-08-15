@@ -81,7 +81,7 @@ public abstract class VonageClientBase
         var body = new
         {
             message_type = "text",
-            text = "testing messages api",
+            text = message,
             to = to,
             from = from,
             channel = "sms"
@@ -112,7 +112,8 @@ public abstract class VonageClientBase
             {
                 new()
                 {
-                    MessageId = smsResponse.MessageUuid
+                    MessageId = smsResponse.MessageUuid,
+                    To = to,
                 }
             }.ToArray()
 
