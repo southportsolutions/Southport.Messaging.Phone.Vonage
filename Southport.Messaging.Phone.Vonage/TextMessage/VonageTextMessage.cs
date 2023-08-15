@@ -101,7 +101,10 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage
                 {
                     response =  await SendMessage(From, To, Message);
                 }
-                response = await SendSms(From, To, Message);
+                else
+                {
+                    response = await SendSms(From, To, Message);
+                }
 
                 return ProcessResponse(response) ;
             }
