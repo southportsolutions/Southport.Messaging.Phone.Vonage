@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Southport.Messaging.Phone.Vonage.Shared;
+namespace Southport.Messaging.Phone.Vonage.Shared.Vonage;
 
 public class VonageWebhookResponse
 {

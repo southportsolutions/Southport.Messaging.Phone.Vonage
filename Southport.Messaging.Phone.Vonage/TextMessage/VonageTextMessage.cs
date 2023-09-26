@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
@@ -7,7 +6,9 @@ using System.Threading.Tasks;
 using Southport.Messaging.Phone.Core.Response;
 using Southport.Messaging.Phone.Core.Shared;
 using Southport.Messaging.Phone.Core.TextMessage;
-using Southport.Messaging.Phone.Vonage.Shared;
+using Southport.Messaging.Phone.Vonage.Shared.Options;
+using Southport.Messaging.Phone.Vonage.Shared.SmsApi;
+using Southport.Messaging.Phone.Vonage.Shared.Vonage;
 using Southport.Messaging.Phone.Vonage.TextMessage.Response;
 
 
@@ -15,24 +16,21 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage
 {
     public class VonageTextMessage : VonageClientBase, ITextMessage
     {
-        private readonly bool _useMessageApi = false;
+        private readonly bool _useMessageApi;
 
         public VonageTextMessage(HttpClient httpClient, IVonageOptions options) : base(httpClient, options)
         {
-            if (options.UseMessageApi)
-            {
-                _useMessageApi = true;
-            }
+            _useMessageApi = options.UseMessageApi;
         }
 
         public VonageTextMessage(HttpClient httpClient, string apiKey, string secret,
             string privateKey, string applicationId, int validFor, bool useMessageApi = false, bool useSandbox = false,
             string testPhoneNumbers = null) : base(httpClient, apiKey, secret, useSandbox, privateKey, applicationId, validFor, testPhoneNumbers)
         {
-            useMessageApi = useMessageApi;
+            _useMessageApi = useMessageApi;
         }
 
-        private List<string> _testFromNumbers = new()
+        private readonly List<string> _testFromNumbers = new()
         {
             "+15005550001",
             "+15005550007",
@@ -47,7 +45,7 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage
         public string Message { get; set; }
         public ITextMessage SetFrom(string from)
         {
-            From = PhoneHelper.NormalizePhoneNumber(from);;
+            From = PhoneHelper.NormalizePhoneNumber(from);
             return this;
         }
 
@@ -74,19 +72,19 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage
         {
             if (string.IsNullOrWhiteSpace(Message))
             {
-                throw new NullReferenceException("The Message cannot be null or empty.");
+                throw new VonageException("The Message cannot be null or empty.");
             }
             
-            var from = UseSandbox && _testFromNumbers.Contains(From) == false ? "+15005550006" : From;
+            var from = UseSandbox && !_testFromNumbers.Contains(From) ? "+15005550006" : From;
 
             if (string.IsNullOrWhiteSpace(from))
             {
-                throw new NullReferenceException("The From phone number cannot be null or empty.");
+                throw new VonageException("The From phone number cannot be null or empty.");
             }
 
             if (string.IsNullOrWhiteSpace(To))
             {
-                throw new NullReferenceException("The To phone number cannot be null or empty.");
+                throw new VonageException("The To phone number cannot be null or empty.");
             }
 
             if (TestPhoneNumbers.Any())
@@ -96,22 +94,27 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage
 
             try
             {
-                SendSmsResponse response = null;
+                SendSmsResponse response;
                 if (_useMessageApi)
                 {
-                    response =  await SendMessage(From, To, Message);
+                    response = await SendMessage(from, To, Message);
                 }
                 else
                 {
-                    response = await SendSms(From, To, Message);
+                    response = await SendSms(from, To, Message);
                 }
 
-                return ProcessResponse(response) ;
+                return ProcessResponse(response);
             }
             catch (VonageSmsResponseException e)
             {
-                int.TryParse(e.Response.Messages.FirstOrDefault()?.Status, out var statusCode);
-                return VonageTextMessageResponse.Failed(e.Message, e.Response.Messages.FirstOrDefault()?.StatusCode.ToString(), statusCode);
+                var message = e.Response.Messages.FirstOrDefault();
+                int.TryParse(message?.Status, out var statusCode);
+                return VonageTextMessageResponse.Failed(e.Message, message?.StatusCode.ToString(), statusCode);
+            }
+            catch (VonageMessageResponseException e)
+            {
+                return VonageTextMessageResponse.Failed(e.Response?.Title, e.Response?.Detail, e.ErrorCode);
             }
 
         }
@@ -121,7 +124,7 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage
             SendSmsResponse messageResponse = null;
             foreach (var to in TestPhoneNumbers.Select(PhoneHelper.NormalizePhoneNumber))
             {
-                messageResponse = await SendSms(From, to, Message);
+                messageResponse = await SendSms(from, to, Message);
             }
 
 

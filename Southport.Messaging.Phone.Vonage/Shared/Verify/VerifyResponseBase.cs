@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Southport.Messaging.Phone.Vonage.Shared;
+namespace Southport.Messaging.Phone.Vonage.Shared.Verify;
 
 public abstract class VerifyResponseBase
 {

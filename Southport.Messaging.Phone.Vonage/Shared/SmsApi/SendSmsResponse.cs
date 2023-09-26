@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Southport.Messaging.Phone.Core.Response;
 
-namespace Southport.Messaging.Phone.Vonage.Shared;
+namespace Southport.Messaging.Phone.Vonage.Shared.SmsApi;
 
 public class SendSmsResponse
 {

@@ -1,7 +1,8 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Southport.Messaging.Phone.Vonage.Shared.Vonage;
 
-namespace Southport.Messaging.Phone.Vonage.Shared;
+namespace Southport.Messaging.Phone.Vonage.Shared.Webhook;
 
 public class MessageStatusWebhook
 {

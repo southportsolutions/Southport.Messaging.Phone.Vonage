@@ -8,8 +8,11 @@ using Newtonsoft.Json;
 using Southport.Messaging.Phone.Core.Response;
 using Southport.Messaging.Phone.Core.Shared;
 using Southport.Messaging.Phone.Vonage.Shared.Jwt;
+using Southport.Messaging.Phone.Vonage.Shared.MessageApi;
+using Southport.Messaging.Phone.Vonage.Shared.Options;
+using Southport.Messaging.Phone.Vonage.Shared.SmsApi;
 
-namespace Southport.Messaging.Phone.Vonage.Shared;
+namespace Southport.Messaging.Phone.Vonage.Shared.Vonage;
 
 public abstract class VonageClientBase
 {
@@ -67,10 +70,7 @@ public abstract class VonageClientBase
         var errorMessages = smsResponse.Messages.Where(e => e.StatusCode != SmsStatusCode.Success).ToList();
         if (!response.IsSuccessStatusCode || errorMessages.Any())
         {
-            throw new VonageSmsResponseException(errorMessages.FirstOrDefault()?.ErrorText)
-            {
-                Response = smsResponse
-            };
+            throw new VonageSmsResponseException(errorMessages.FirstOrDefault()?.ErrorText, smsResponse);
         }
 
         return smsResponse;
@@ -82,8 +82,8 @@ public abstract class VonageClientBase
         {
             message_type = "text",
             text = message,
-            to = to,
-            from = from,
+            to,
+            from,
             channel = "sms"
         };
 
@@ -97,12 +97,14 @@ public abstract class VonageClientBase
 
         var response = await _httpClient.PostAsync(_messagesApiUrl, content);
         var responseString = await response.Content.ReadAsStringAsync();
-        var smsResponse = JsonConvert.DeserializeObject<SendMessageResponse>(responseString);
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new VonageSmsResponseException(response.ReasonPhrase);
+            var responseError = JsonConvert.DeserializeObject<SendMessageErrorResponse>(responseString);
+            throw new VonageMessageResponseException(response.ReasonPhrase, responseError, (int)response.StatusCode);
         }
+
+        var smsResponse = JsonConvert.DeserializeObject<SendMessageResponse>(responseString);
 
         return new SendSmsResponse
         {
