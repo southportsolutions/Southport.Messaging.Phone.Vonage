@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Southport.Messaging.Phone.Core.Verifier;
-using Southport.Messaging.Phone.Vonage.Shared;
+using Southport.Messaging.Phone.Vonage.Shared.Options;
+using Southport.Messaging.Phone.Vonage.Shared.Verify;
+using Southport.Messaging.Phone.Vonage.Shared.Vonage;
 
 namespace Southport.Messaging.Phone.Vonage.Verifier;
 

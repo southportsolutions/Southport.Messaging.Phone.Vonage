@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-using Southport.Messaging.Phone.Vonage.Shared;
+using Southport.Messaging.Phone.Vonage.Shared.Options;
 
 namespace Southport.Messaging.Phone.Vonage.Tests
 {
@@ -14,19 +14,19 @@ namespace Southport.Messaging.Phone.Vonage.Tests
             {
                 var configurationBuilder = new ConfigurationBuilder()
                     
-                    .AddJsonFile(Path.Combine((new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.Parent).ToString(), "appsettings.json"), true)
+                    .AddJsonFile(Path.Combine((new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.Parent).ToString(), "appsettings.json"), false)
                     .AddEnvironmentVariables();
                 var config = configurationBuilder.Build();
                 Options = new VonageOptions { UseSandbox = true};
                 config.Bind(Options);
 
-                if (string.IsNullOrWhiteSpace(Options.Secret))
-                {
-                    Options.Secret = Environment.GetEnvironmentVariable("VONAGE_SECRET");
-                    Options.ApiKey = Environment.GetEnvironmentVariable("VOAGE_API_KEY");
-                    Options.From = Environment.GetEnvironmentVariable("VONAGE_FROM");
-                    Options.To = Environment.GetEnvironmentVariable("VONAGE_TO");
-                }
+                //if (string.IsNullOrWhiteSpace(Options.Secret))
+                //{
+                //    Options.Secret = Environment.GetEnvironmentVariable("VONAGE_SECRET");
+                //    Options.ApiKey = Environment.GetEnvironmentVariable("VOAGE_API_KEY");
+                //    Options.From = Environment.GetEnvironmentVariable("VONAGE_FROM");
+                //    Options.To = Environment.GetEnvironmentVariable("VONAGE_TO");
+                //}
 
                 if (string.IsNullOrEmpty(Options.ApiKey))
                 {

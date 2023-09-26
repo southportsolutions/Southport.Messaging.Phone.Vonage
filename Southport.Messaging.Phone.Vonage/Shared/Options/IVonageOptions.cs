@@ -1,4 +1,4 @@
-﻿namespace Southport.Messaging.Phone.Vonage.Shared;
+﻿namespace Southport.Messaging.Phone.Vonage.Shared.Options;
 
 public interface IVonageOptions
 {

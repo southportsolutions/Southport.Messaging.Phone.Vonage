@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Southport.Messaging.Phone.Core.Response;
 using Southport.Messaging.Phone.Core.Shared;
-using Southport.Messaging.Phone.Vonage.Shared;
+using Southport.Messaging.Phone.Vonage.Shared.SmsApi;
 
 namespace Southport.Messaging.Phone.Vonage.TextMessage.Response
 {

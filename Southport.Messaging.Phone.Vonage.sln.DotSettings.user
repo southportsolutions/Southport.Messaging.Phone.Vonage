@@ -4,14 +4,17 @@
     &lt;TestId&gt;xUnit::082BA51B-CE34-4378-B61B-7409BD49C46A::net7.0::Vonage.JwtGeneration.Test.JwtTest.GenerateTokenNoAcls&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=363d7a06_002D4e66_002D4535_002D9992_002D81952c752082/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GenerateTokenNoAcls #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=363d7a06_002D4e66_002D4535_002D9992_002D81952c752082/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GenerateTokenNoAcls #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::082BA51B-CE34-4378-B61B-7409BD49C46A::net7.0::Vonage.JwtGeneration.Test.JwtTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::082BA51B-CE34-4378-B61B-7409BD49C46A::net7.0::Southport.Messaging.Phone.Vonage.Tests.TextMessaging.TextMessageTests.Send_Success&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=44523ea7_002Dc24c_002D4f2a_002D80df_002Deee5f4f71df3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="JwtTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::082BA51B-CE34-4378-B61B-7409BD49C46A::net6.0::Southport.Messaging.Phone.Vonage.Tests.Shared.JWT.JwtTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::082BA51B-CE34-4378-B61B-7409BD49C46A::net6.0::Southport.Messaging.Phone.Vonage.Tests.TextMessaging.TextMessageTests.Send_BadFromNumber&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::082BA51B-CE34-4378-B61B-7409BD49C46A::net6.0::Southport.Messaging.Phone.Vonage.Tests.TextMessaging.TextMessageTests.Send_Success&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::082BA51B-CE34-4378-B61B-7409BD49C46A::net6.0::Southport.Messaging.Phone.Vonage.Tests.TextMessaging.TextMessageTests.Send_BadToNumber&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::082BA51B-CE34-4378-B61B-7409BD49C46A::net6.0::Southport.Messaging.Phone.Vonage.Tests.TextMessaging.TextMessageTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
