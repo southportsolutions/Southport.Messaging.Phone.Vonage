@@ -76,6 +76,11 @@ jobs:
       
       - name: Test (NET9) and collect coverage
         shell: bash
+        env:
+          VONAGE_API_KEY: ${{ secrets.VONAGE_API_KEY }}
+          VONAGE_SECRET: ${{ secrets.VONAGE_SECRET }}
+          VONAGE_FROM: ${{ env.VONAGE_FROM }}
+          VONAGE_TO: ${{ env.VONAGE_TO }}
         run: |
           shopt -s globstar nullglob
           dotnet test **/${{ env.PROJECT_NAME }}.Tests.csproj \
@@ -88,6 +93,11 @@ jobs:
 
       - name: Test (NET10) and collect coverage
         shell: bash
+        env:
+          VONAGE_API_KEY: ${{ secrets.VONAGE_API_KEY }}
+          VONAGE_SECRET: ${{ secrets.VONAGE_SECRET }}
+          VONAGE_FROM: ${{ env.VONAGE_FROM }}
+          VONAGE_TO: ${{ env.VONAGE_TO }}
         run: |
           shopt -s globstar nullglob
           dotnet test **/${{ env.PROJECT_NAME }}.Tests.csproj \

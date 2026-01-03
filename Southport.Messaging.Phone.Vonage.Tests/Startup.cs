@@ -22,8 +22,8 @@ namespace Southport.Messaging.Phone.Vonage.Tests
 
                 if (string.IsNullOrWhiteSpace(OptionsTest.Secret))
                 {
+                    OptionsTest.ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY");
                     OptionsTest.Secret = Environment.GetEnvironmentVariable("VONAGE_SECRET");
-                    OptionsTest.ApiKey = Environment.GetEnvironmentVariable("VOAGE_API_KEY");
                     OptionsTest.From = Environment.GetEnvironmentVariable("VONAGE_FROM");
                     OptionsTest.To = Environment.GetEnvironmentVariable("VONAGE_TO");
                 }
