@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using Southport.Messaging.Phone.Core.Verifier;
 using Southport.Messaging.Phone.Vonage.Shared.Options;
 using Southport.Messaging.Phone.Vonage.Shared.Verify;
@@ -15,7 +15,7 @@ public class VonageVonagePhoneNumberVerifier : VonageClientBase, IVonagePhoneNum
     {
     }
 
-    public VonageVonagePhoneNumberVerifier(IVonageOptions options, HttpClient httpClient) : base(httpClient, options)
+    public VonageVonagePhoneNumberVerifier(HttpClient httpClient, IOptions<VonageOptions> options) : base(httpClient, options.Value)
     {
     }
 

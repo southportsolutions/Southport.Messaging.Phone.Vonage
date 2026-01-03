@@ -2,13 +2,10 @@
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using AutoFixture;
-using AutoFixture.AutoMoq;
 using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Southport.Messaging.Phone.Core.TextMessage;
 using Southport.Messaging.Phone.Vonage.Shared.MessageApi;
-using Southport.Messaging.Phone.Vonage.Shared.Options;
 using Southport.Messaging.Phone.Vonage.TextMessage;
 using Xunit;
 using Xunit.Abstractions;
@@ -19,17 +16,13 @@ namespace Southport.Messaging.Phone.Vonage.Tests.TextMessaging
     {
         private readonly ITestOutputHelper _output;
         private ITextMessage TextMessage { get; }
-        private VonageOptions Options { get; }
+        private VonageOptionsTest Options { get; }
         public TextMessageTests(ITestOutputHelper output)
         {
             _output = output;
-            var fixture = new Fixture().Customize(new AutoMoqCustomization());
             Options = Startup.GetOptions();
 
-            fixture.Register(()=>(IVonageOptions)Options);
-            fixture.Register(()=> new HttpClient());
-
-            TextMessage = fixture.Create<VonageTextMessage>();
+            TextMessage = new VonageTextMessage(new HttpClient(), Options);
             TextMessage.MessageServiceSid = null;
         }
 
@@ -80,6 +73,7 @@ namespace Southport.Messaging.Phone.Vonage.Tests.TextMessaging
                 .SetMessage(message)
                 .SendAsync();
 
+            Assert.True(string.IsNullOrEmpty(response.ErrorMessage));
             Assert.True(response.IsSuccessful);
         }
     }

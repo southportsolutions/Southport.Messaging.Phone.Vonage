@@ -30,6 +30,12 @@ public abstract class VonageClientBase
     private readonly string _applicationId;
     private readonly int _validFor;
 
+    protected VonageClientBase(HttpClient httpClient, VonageOptions options) : this(httpClient, options.ApiKey,
+        options.Secret, options.UseSandbox, options.PrivateKey, options.ApplicationId, options.ValidFor,
+        options.TestPhoneNumbers)
+    {
+    }
+
     protected VonageClientBase(HttpClient httpClient, string apiKey, string secret, bool useSandbox, string privateKey,
         string applicationId, int validFor, string testPhoneNumbers = null)
     {
@@ -120,11 +126,5 @@ public abstract class VonageClientBase
             }.ToArray()
 
         };
-    }
-
-    protected VonageClientBase(HttpClient httpClient, IVonageOptions options) : this(httpClient, options.ApiKey,
-        options.Secret, options.UseSandbox, options.PrivateKey, options.ApplicationId, options.ValidFor,
-        options.TestPhoneNumbers)
-    {
     }
 }

@@ -18,7 +18,7 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage
     {
         private readonly bool _useMessageApi;
 
-        public VonageTextMessage(HttpClient httpClient, IVonageOptions options) : base(httpClient, options)
+        public VonageTextMessage(HttpClient httpClient, VonageOptions options) : base(httpClient, options)
         {
             _useMessageApi = options.UseMessageApi;
         }

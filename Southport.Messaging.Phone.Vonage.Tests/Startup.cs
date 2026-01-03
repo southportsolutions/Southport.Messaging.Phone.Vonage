@@ -7,50 +7,43 @@ namespace Southport.Messaging.Phone.Vonage.Tests
 {
     public static class Startup
     {
-        private static VonageOptions Options { get; set; }
-        public static VonageOptions GetOptions()
+        private static VonageOptionsTest OptionsTest { get; set; }
+        public static VonageOptionsTest GetOptions()
         {
-            if (Options == null)
+            if (OptionsTest == null)
             {
                 var configurationBuilder = new ConfigurationBuilder()
                     
-                    .AddJsonFile(Path.Combine((new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.Parent).ToString(), "appsettings.json"), false)
+                    .AddJsonFile(Path.Combine((new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.Parent).ToString(), "appsettings.json"), true)
                     .AddEnvironmentVariables();
                 var config = configurationBuilder.Build();
-                Options = new VonageOptions { UseSandbox = true};
-                config.Bind(Options);
+                OptionsTest = new VonageOptionsTest { UseSandbox = false};
+                config.Bind(OptionsTest);
 
-                //if (string.IsNullOrWhiteSpace(Options.Secret))
-                //{
-                //    Options.Secret = Environment.GetEnvironmentVariable("VONAGE_SECRET");
-                //    Options.ApiKey = Environment.GetEnvironmentVariable("VOAGE_API_KEY");
-                //    Options.From = Environment.GetEnvironmentVariable("VONAGE_FROM");
-                //    Options.To = Environment.GetEnvironmentVariable("VONAGE_TO");
-                //}
+                if (string.IsNullOrWhiteSpace(OptionsTest.Secret))
+                {
+                    OptionsTest.ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY");
+                    OptionsTest.Secret = Environment.GetEnvironmentVariable("VONAGE_SECRET");
+                    OptionsTest.PrivateKey = Environment.GetEnvironmentVariable("VONAGE_PRIVATE_KEY");
+                    OptionsTest.ApplicationId = Environment.GetEnvironmentVariable("VONAGE_APPLICATION_ID");
+                    OptionsTest.From = Environment.GetEnvironmentVariable("VONAGE_FROM");
+                    OptionsTest.To = Environment.GetEnvironmentVariable("VONAGE_TO");
+                }
 
-                if (string.IsNullOrEmpty(Options.ApiKey))
+                if (string.IsNullOrEmpty(OptionsTest.ApiKey))
                 {
                     throw new Exception("Unable to get the Vonage API Key.");
                 }
             }
 
-            return Options;
+            return OptionsTest;
 
         }
     }
 
-    public class VonageOptions : IVonageOptions
+    public class VonageOptionsTest : VonageOptions
     {
-        public string TestPhoneNumbers { get; set; }
-        public bool UseSandbox { get; set; }
-        public string ApiKey { get; set; }
-        public string Secret { get; set; }
-        public string PrivateKey { get; set; }
-        public string ApplicationId { get; set; }
-        public int ValidFor { get; set; }
         public string To { get; set; }
         public string From { get; set; }
-
-        public bool UseMessageApi { get; set; }
     }
 }
