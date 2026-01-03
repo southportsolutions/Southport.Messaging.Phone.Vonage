@@ -1,23 +1,25 @@
 ﻿namespace Southport.Messaging.Phone.Vonage.Shared;
 
-public interface IVonageOptions
+public class VonageOptions
 {
-    string TestPhoneNumbers { get; set; }
-    bool UseSandbox { get; set; }
+    public const string Key = "Vonage";
+    
+    public string TestPhoneNumbers { get; set; }
+    public bool UseSandbox { get; set; }
 
     #region Basic Auth
-    string ApiKey { get; set; }
-    string Secret { get; set; }
+    public string ApiKey { get; set; }
+    public string Secret { get; set; }
     #endregion
 
     #region JWT Auth
 
-    string PrivateKey { get; set; }
-    string ApplicationId { get; set; }
-    int ValidFor { get; set; }
+    public string PrivateKey { get; set; }
+    public string ApplicationId { get; set; }
+    public int ValidFor { get; set; }
 
     #endregion
 
-    bool UseMessageApi { get; set; }
+    public bool UseMessageApi { get; set; }
 
 }

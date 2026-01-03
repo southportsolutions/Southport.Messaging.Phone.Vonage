@@ -82,8 +82,8 @@ public abstract class VonageClientBase
         {
             message_type = "text",
             text = message,
-            to = to,
-            from = from,
+            to,
+            from,
             channel = "sms"
         };
 
@@ -120,7 +120,7 @@ public abstract class VonageClientBase
         };
     }
 
-    protected VonageClientBase(HttpClient httpClient, IVonageOptions options) : this(httpClient, options.ApiKey,
+    protected VonageClientBase(HttpClient httpClient, VonageOptions options) : this(httpClient, options.ApiKey,
         options.Secret, options.UseSandbox, options.PrivateKey, options.ApplicationId, options.ValidFor,
         options.TestPhoneNumbers)
     {

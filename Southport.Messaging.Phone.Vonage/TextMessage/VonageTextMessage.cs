@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using Southport.Messaging.Phone.Core.Response;
 using Southport.Messaging.Phone.Core.Shared;
 using Southport.Messaging.Phone.Core.TextMessage;
@@ -17,7 +18,7 @@ namespace Southport.Messaging.Phone.Vonage.TextMessage
     {
         private readonly bool _useMessageApi = false;
 
-        public VonageTextMessage(HttpClient httpClient, IVonageOptions options) : base(httpClient, options)
+        public VonageTextMessage(HttpClient httpClient, VonageOptions options) : base(httpClient, options)
         {
             if (options.UseMessageApi)
             {
