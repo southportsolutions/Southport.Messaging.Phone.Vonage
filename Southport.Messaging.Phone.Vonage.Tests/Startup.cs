@@ -17,7 +17,7 @@ namespace Southport.Messaging.Phone.Vonage.Tests
                     .AddJsonFile(Path.Combine((new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.Parent).ToString(), "appsettings.json"), true)
                     .AddEnvironmentVariables();
                 var config = configurationBuilder.Build();
-                OptionsTest = new VonageOptionsTest { UseSandbox = true};
+                OptionsTest = new VonageOptionsTest { UseSandbox = false};
                 config.Bind(OptionsTest);
 
                 if (string.IsNullOrWhiteSpace(OptionsTest.Secret))
