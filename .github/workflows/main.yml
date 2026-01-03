@@ -79,6 +79,8 @@ jobs:
         env:
           VONAGE_API_KEY: ${{ secrets.VONAGE_API_KEY }}
           VONAGE_SECRET: ${{ secrets.VONAGE_SECRET }}
+          VONAGE_PRIVATE_KEY: ${{ secrets.VONAGE_PRIVATE_KEY }}
+          VONAGE_APPLICATION_ID: ${{ secrets.VONAGE_APPLICATION_ID }}
           VONAGE_FROM: ${{ env.VONAGE_FROM }}
           VONAGE_TO: ${{ env.VONAGE_TO }}
         run: |
@@ -96,6 +98,8 @@ jobs:
         env:
           VONAGE_API_KEY: ${{ secrets.VONAGE_API_KEY }}
           VONAGE_SECRET: ${{ secrets.VONAGE_SECRET }}
+          VONAGE_PRIVATE_KEY: ${{ secrets.VONAGE_PRIVATE_KEY }}
+          VONAGE_APPLICATION_ID: ${{ secrets.VONAGE_APPLICATION_ID }}
           VONAGE_FROM: ${{ env.VONAGE_FROM }}
           VONAGE_TO: ${{ env.VONAGE_TO }}
         run: |
