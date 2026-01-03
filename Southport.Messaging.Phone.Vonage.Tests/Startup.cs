@@ -24,6 +24,8 @@ namespace Southport.Messaging.Phone.Vonage.Tests
                 {
                     OptionsTest.ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY");
                     OptionsTest.Secret = Environment.GetEnvironmentVariable("VONAGE_SECRET");
+                    OptionsTest.PrivateKey = Environment.GetEnvironmentVariable("VONAGE_PRIVATE_KEY");
+                    OptionsTest.ApplicationId = Environment.GetEnvironmentVariable("VONAGE_APPLICATION_ID");
                     OptionsTest.From = Environment.GetEnvironmentVariable("VONAGE_FROM");
                     OptionsTest.To = Environment.GetEnvironmentVariable("VONAGE_TO");
                 }
