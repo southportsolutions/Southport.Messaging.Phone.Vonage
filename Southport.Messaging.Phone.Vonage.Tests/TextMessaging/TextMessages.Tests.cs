@@ -73,7 +73,7 @@ namespace Southport.Messaging.Phone.Vonage.Tests.TextMessaging
                 .SetMessage(message)
                 .SendAsync();
 
-            Assert.Empty(response.ErrorMessage);
+            Assert.True(string.IsNullOrEmpty(response.ErrorMessage));
             Assert.True(response.IsSuccessful);
         }
     }
