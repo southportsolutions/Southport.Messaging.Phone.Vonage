@@ -11,8 +11,14 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             public static IServiceCollection AddKeyVaultCollection(this IServiceCollection services, IConfiguration config, string configKey = VonageOptions.Key)
             {
+                if (configKey is null)
+                {
+                    throw new ArgumentNullException(nameof(configKey));
+                }
+
                 if (string.IsNullOrWhiteSpace(configKey))
                 {
+                    throw new ArgumentException("Configuration key cannot be empty or whitespace.", nameof(configKey));
                     throw new ArgumentNullException(nameof(configKey));
                 }
                 
