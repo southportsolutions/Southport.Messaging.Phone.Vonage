@@ -5,30 +5,24 @@ using Southport.Messaging.Phone.Vonage.TextMessage;
 using Southport.Messaging.Phone.Vonage.Verifier;
 
 // ReSharper disable once CheckNamespace
-namespace Microsoft.Extensions.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection;
+
+public static class SouthportTwilioServiceCollection
+{
+    public static IServiceCollection AddKeyVaultCollection(this IServiceCollection services, IConfiguration config,
+        string configKey = VonageOptions.Key)
     {
-        public static class SouthportTwilioServiceCollection
+        ArgumentNullException.ThrowIfNull(configKey);
+
+        if (string.IsNullOrWhiteSpace(configKey))
         {
-            public static IServiceCollection AddKeyVaultCollection(this IServiceCollection services, IConfiguration config, string configKey = VonageOptions.Key)
-            {
-                if (configKey is null)
-                {
-                    throw new ArgumentNullException(nameof(configKey));
-                }
-
-                if (string.IsNullOrWhiteSpace(configKey))
-                {
-                    throw new ArgumentException("Configuration key cannot be empty or whitespace.", nameof(configKey));
-                    throw new ArgumentNullException(nameof(configKey));
-                }
-                
-                services.Configure<VonageOptions>(config.GetSection(configKey));
-                services.AddHttpClient<IVonageTextMessageFactory, VonageTextMessageFactory>();
-                services.AddHttpClient<IVonagePhoneNumberVerifier, VonageVonagePhoneNumberVerifier>();
-
-                return services;
-            }
+            throw new ArgumentException("Configuration key cannot be empty or whitespace.", nameof(configKey));
         }
 
+        services.Configure<VonageOptions>(config.GetSection(configKey));
+        services.AddHttpClient<IVonageTextMessageFactory, VonageTextMessageFactory>();
+        services.AddHttpClient<IVonagePhoneNumberVerifier, VonageVonagePhoneNumberVerifier>();
 
+        return services;
     }
+}
