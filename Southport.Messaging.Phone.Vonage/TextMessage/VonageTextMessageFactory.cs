@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 using Microsoft.Extensions.Options;
-using Southport.Messaging.Phone.Vonage.Shared;
+using Southport.Messaging.Phone.Vonage.Shared.Options;
 
 namespace Southport.Messaging.Phone.Vonage.TextMessage;
 

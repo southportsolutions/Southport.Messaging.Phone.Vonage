@@ -1,4 +1,4 @@
-﻿namespace Southport.Messaging.Phone.Vonage.Shared;
+﻿namespace Southport.Messaging.Phone.Vonage.Shared.SmsApi;
 
 public enum SmsStatusCode
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-using Southport.Messaging.Phone.Vonage.Shared;
+using Southport.Messaging.Phone.Vonage.Shared.Options;
 
 namespace Southport.Messaging.Phone.Vonage.Tests
 {

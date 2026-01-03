@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
-using Southport.Messaging.Phone.Vonage.Shared;
+using Southport.Messaging.Phone.Vonage.Shared.Options;
 using Southport.Messaging.Phone.Vonage.TextMessage;
 using Southport.Messaging.Phone.Vonage.Verifier;
 

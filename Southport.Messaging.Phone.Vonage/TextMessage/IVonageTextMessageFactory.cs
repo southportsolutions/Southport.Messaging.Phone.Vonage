@@ -1,6 +1,4 @@
-﻿using System.Net.Http;
-
-namespace Southport.Messaging.Phone.Vonage.TextMessage;
+﻿namespace Southport.Messaging.Phone.Vonage.TextMessage;
 
 public interface IVonageTextMessageFactory
 {

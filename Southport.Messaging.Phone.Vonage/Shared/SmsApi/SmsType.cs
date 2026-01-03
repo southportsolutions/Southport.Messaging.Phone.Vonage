@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Southport.Messaging.Phone.Vonage.Shared;
+namespace Southport.Messaging.Phone.Vonage.Shared.SmsApi;
 
 public enum SmsType
 {

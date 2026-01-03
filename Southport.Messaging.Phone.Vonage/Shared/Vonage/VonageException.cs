@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Southport.Messaging.Phone.Vonage.Shared;
+namespace Southport.Messaging.Phone.Vonage.Shared.Vonage;
 
 public class VonageException : Exception
 {

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace Southport.Messaging.Phone.Vonage.Shared.Jwt;

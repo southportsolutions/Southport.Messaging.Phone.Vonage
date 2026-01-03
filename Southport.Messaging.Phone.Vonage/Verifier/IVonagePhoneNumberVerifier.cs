@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Southport.Messaging.Phone.Core.Verifier;
-using Southport.Messaging.Phone.Vonage.Shared;
+using Southport.Messaging.Phone.Vonage.Shared.Verify;
 
 namespace Southport.Messaging.Phone.Vonage.Verifier
 {
